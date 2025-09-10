@@ -1,1 +1,4 @@
-
+Task LLM/.env
+Task LLM/node_modules
+LangChainTool/node_modules
+LangChainTool/.env

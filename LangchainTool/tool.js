@@ -5,7 +5,7 @@ import { z } from "zod";
 
 export const compatibilityTool = tool(
   async (input) => {
-    // Just return what the LLM generated
+    // Just returned what the LLM generated
     return input;
   },
   {
