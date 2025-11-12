@@ -3,7 +3,7 @@
 This repository hosts the **proof-of-concept backend service** for the **TeamUp** platform’s intelligent matchmaking system.  
 It demonstrates a **cutting-edge approach**: leveraging a **Large Language Model (LLM)** with **Tool-Calling** capabilities to function as a **highly flexible and accurate Compatibility Engine** for project–student matchmaking.
 
-🔗 **Live Demo:** [https://ucs503p-202526odd-nullptr-1i17.vercel.app/](https://ucs503p-202526odd-nullptr-1i17.vercel.app/)
+🔗 **Live Demo:** [[https://team-up-nullptrs.vercel.app/](https://team-up-nullptrs.vercel.app/)]
 
 ---
 
@@ -40,5 +40,6 @@ Example JSON output:
     { "profile_id": "S107", "score": 74 }
   ]
 }
+
 
 
