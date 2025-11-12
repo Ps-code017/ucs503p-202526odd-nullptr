@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TeamUp Compatibility Viewer</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    h1 {
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    pre {
+      background: #1e1e1e;
+      color: #0f0;
+      padding: 15px;
+      border-radius: 6px;
+      width: 90%;
+      max-width: 900px;
+      overflow-x: auto;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .loader {
+      display: none;
+      font-weight: bold;
+      color: #555;
+      margin-top: 10px;
+    }
+    .highlight {
+      background: #fff;
+      color: #222;
+      padding: 10px;
+      border-radius: 6px;
+      width: 90%;
+      max-width: 600px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .highlight h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+    ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    li {
+      margin: 4px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>🧩 TeamUp Compatibility Engine</h1>
+  <div class="btn-group">
+    <button id="profileBtn">Get Profile → Team Rankings</button>
+    <button id="teamBtn">Get Team → Profile Rankings</button>
+  </div>
+  <div class="loader" id="loader">Loading...</div>
+
+  <div class="highlight" id="summary"></div>
+
+  <pre id="output">Click a button above to see results...</pre>
+
+  <script src="config.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
