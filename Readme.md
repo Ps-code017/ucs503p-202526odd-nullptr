@@ -9,7 +9,7 @@ It demonstrates a **cutting-edge approach**: leveraging a **Large Language Model
 
 ## 🌟 Core Utility & Problem Solved
 
-### 🎯 The Challenge
+### 🎯 The Challenge!
 TeamUp’s primary goal is to **connect diverse student talent** with **niche project needs**.  
 Traditional rule-based or keyword-matching systems fail to understand nuanced skill descriptions like:
 > “Python, Flask, UI/UX” vs “Mental Health Chatbot”  
@@ -40,6 +40,7 @@ Example JSON output:
     { "profile_id": "S107", "score": 74 }
   ]
 }
+
 
 
 
