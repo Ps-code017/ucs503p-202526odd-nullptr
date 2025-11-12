@@ -1,27 +1,44 @@
-🚀 TeamUp Matchmaker Core: LLM Compatibility Engine
-This repository hosts the proof-of-concept backend service for the TeamUp platform's intelligent matchmaking. It demonstrates a cutting-edge approach: leveraging a Large Language Model (LLM) and its Tool-Calling capability to function as a highly flexible and accurate Compatibility Engine.
+# 🚀 TeamUp Matchmaker Core: LLM Compatibility Engine
 
-🌟 Core Utility & Problem Solved: 
-The main challenge for TeamUp is accurately connecting diverse student talent with niche project needs. This service solves the need for a "Tag-based similarity scoring system" (as described in the project report) without requiring complex, hard-coded algorithms.
+This repository hosts the **proof-of-concept backend service** for the **TeamUp** platform’s intelligent matchmaking system.  
+It demonstrates a **cutting-edge approach**: leveraging a **Large Language Model (LLM)** with **Tool-Calling** capabilities to function as a **highly flexible and accurate Compatibility Engine** for project–student matchmaking.
 
-Key Advantages: 
-Intelligent Matching: The LLM acts as a Compatibility Engine, analyzing unstructured student skills (e.g., "Python, Flask, UI/UX") against structured team needs (e.g., "Mental Health Chatbot").
+🔗 **Live Demo:** [https://ucs503p-202526odd-nullptr-1i17.vercel.app/](https://ucs503p-202526odd-nullptr-1i17.vercel.app/)
 
-Structured Output: Using Tool-Calling, the LLM is forced to return highly reliable, structured JSON data containing score (0-100) and ordered rankings, making the results instantly usable by the frontend.
+---
 
-Flexibility: This approach makes the matching system easily adaptable. Changing the criteria for a "good match" only requires updating the system prompt, not rewriting complex scoring logic.
+## 🌟 Core Utility & Problem Solved
 
-⚙️ API Endpoints (Node/Express)
-The server exposes two main endpoints to demonstrate comprehensive matching capability using pre-loaded team and profile data.
+### 🎯 The Challenge
+TeamUp’s primary goal is to **connect diverse student talent** with **niche project needs**.  
+Traditional rule-based or keyword-matching systems fail to understand nuanced skill descriptions like:
+> “Python, Flask, UI/UX” vs “Mental Health Chatbot”  
 
-1. /api/profile-rank
-Goal: Profile Ranking per Team
+Such systems often miss meaningful matches due to lack of contextual understanding.
 
-Output: Returns lists of student profiles ranked (most to least suitable) for each specific team project.
+### 💡 The Solution
+This service introduces a **Tag-based Similarity Scoring System** powered by an **LLM-based Compatibility Engine**.  
+Instead of using hard-coded logic, the LLM evaluates **semantic similarity**, **context**, and **intent**, producing **structured JSON results** with high interpretability and adaptability.
 
-2. /api/team-rank
-Goal: Team Ranking per Profile
+---
 
-Output: Returns lists of team projects ranked (most to least interesting) for each individual student profile.
+## 🧠 Key Advantages
 
-The result of both calls is a structured JSON object, directly providing the data needed to display personalized teammate suggestions to the end-user.
+### 1. 🤖 Intelligent Matching  
+The LLM analyzes **unstructured skill data** (e.g., “Machine Learning, React, Flask”) against **structured project requirements** (e.g., “AI-based Learning Assistant”) and outputs **compatibility scores (0–100)**.
+
+### 2. 🧩 Structured & Reliable Output  
+By leveraging **Tool-Calling**, the LLM is forced to respond with **consistent, structured JSON**, ensuring the output can be consumed directly by the frontend with **no manual parsing or cleanup**.
+
+Example JSON output:
+```json
+{
+  "team_name": "Mental Health Chatbot",
+  "rankings": [
+    { "profile_id": "S101", "score": 92 },
+    { "profile_id": "S103", "score": 85 },
+    { "profile_id": "S107", "score": 74 }
+  ]
+}
+
+
