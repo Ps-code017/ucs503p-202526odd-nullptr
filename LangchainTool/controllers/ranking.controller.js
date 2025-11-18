@@ -5,7 +5,7 @@ import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 import openai from "../llmModels/groq2.js";
-import { rankProfilesForTeam,rankTeamsForPerson, rankTeamsTool } from "../tool.js";
+import { rankProfilesTool, rankTeamsTool } from "../tool.js";
 
 export const rankTeamsForProfile=asyncHandler(async(req,res)=>{
     const profile=await User.findById(req.user._id).select("-googleId -refreshToken");
@@ -67,7 +67,7 @@ export const rankProfilesForTeam=asyncHandler(async(req,res)=>{
         content: JSON.stringify(llmInput)
       }
     ],{
-        tool_choice:rankProfilesForTeam
+        tool_choice:rankProfilesTool
     });
     const toolCall = response.tool_calls?.[0]?.args;
     return res.status(200).json(new ApiResponse(200,"Profiles ranked successfully",toolCall))

@@ -3,25 +3,33 @@
 import { tool } from "@langchain/core/tools";
 import { z } from "zod";
 
-export const rankTeamsTool = tool({
-  name: "rank_teams_for_profile",
-  description: "Scores and ranks teams for a specific profile",
-  schema: z.object({
-    scores: z.record(z.number()),     // team → score
-    rankings: z.array(z.string())     // ordered team names
-  }),
-  execute: async (args) => args,
-});
+export const rankTeamsTool = tool(
+  async (args) => {
+    return args; // echo back
+  },
+  {
+    name: "rank_teams_for_profile",
+    description: "Scores and ranks teams for a specific profile",
+    schema: z.object({
+      scores: z.record(z.string(), z.number()), // team → score
+      rankings: z.array(z.string()),            // ordered teams
+    }),
+  }
+);
 
-export const rankProfilesTool = tool({
-  name: "rank_profiles_for_team",
-  description: "Scores and ranks profiles for a specific team",
-  schema: z.object({
-    scores: z.record(z.number()),     // profile → score
-    rankings: z.array(z.string())     // ordered profile names
-  }),
-  execute: async (args) => args,
-});
+export const rankProfilesTool = tool(
+  async (args) => {
+    return args;
+  },
+  {
+    name: "rank_profiles_for_team",
+    description: "Scores and ranks profiles for a specific team",
+    schema: z.object({
+      scores: z.record(z.string(), z.number()), // profile → score
+      rankings: z.array(z.string()),            // ordered profiles
+    }),
+  }
+);
 
 
 // import { tool } from "@langchain/core/tools";

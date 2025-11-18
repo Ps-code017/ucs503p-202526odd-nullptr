@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { compatibilityTool, profileTeamTool } from "./tool.js";
+// import { compatibilityTool, profileTeamTool } from "./tool.js";
 import openai  from "./llmModels/groq2.js"; // your existing OpenAI client
 import connectDB from "./db/index.js";
 
@@ -18,10 +18,15 @@ app.use(cors({
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 //routes
 
 import authRouter from "./routes/auth.routes.js"
+import userRouter from "./routes/user.routes.js"
+import teamRouter from "./routes/team.routes.js"
+import rankingRouter from "./routes/rankings.routes.js"
+import cookieParser from "cookie-parser";
 
 app.use("/api/auth", authRouter);
 app.use("/api/users", userRouter);

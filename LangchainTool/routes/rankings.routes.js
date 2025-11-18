@@ -1,5 +1,5 @@
 import express from "express";
-import { rankTeamsForProfile, rankProfilesForTeam } from "../controllers/rankingController.js";
+import { rankTeamsForProfile, rankProfilesForTeam } from "../controllers/ranking.controller.js";
 import { verifyJWT } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
