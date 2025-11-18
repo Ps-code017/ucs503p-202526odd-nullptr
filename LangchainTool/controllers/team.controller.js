@@ -23,8 +23,12 @@ export const joinTeam=asyncHandler(async(req,res)=>{
     if(!team){
         throw new ApiError(404,"Team not found")
     }
-    if(team.members.includes(req.user._id)){
-        throw new ApiError(400,"User already a member of the team")
+    const alreadyMember = team.members.some(
+        (m) => m.user.toString() === req.user._id.toString()
+    );
+
+    if (alreadyMember) {
+    throw new ApiError(400, "User already a member of the team");
     }
     team.members.push({user:req.user._id, role:"member"});
     await team.save();

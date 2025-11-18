@@ -27,14 +27,14 @@ export const rankTeamsForProfile=asyncHandler(async(req,res)=>{
     const response = await openai.invoke([
       {
         role: "system",
-        content: "You MUST call rank_teams_for_profile tool."
+        content: "You are the compatibility engine. You will rank the teams for profile based on how compatible they are to win hackathon based on the skills and techstack provided to you. You MUST call rank_teams_for_profile tool."
       },
       {
         role: "user",
         content: JSON.stringify(llmInput)
       }
     ],{
-        tool_choice:rankTeamsTool
+        tool_choice:rankTeamsTool.name
     });
     const toolCall = response.tool_calls?.[0]?.args;
     return res.status(200).json(new ApiResponse(200,"Teams ranked successfully",toolCall))
@@ -60,15 +60,17 @@ export const rankProfilesForTeam=asyncHandler(async(req,res)=>{
     const response = await openai.invoke([
       {
         role: "system",
-        content: "You MUST call rank_profiles_for_team tool."
+        content: "You are compatibility engine. You will rank the profiles for the given team based on how compatible they are to win hackathon based on the skills and techstack provided to you. You MUST call rank_profiles_for_team tool."
       },
       {
         role: "user",
         content: JSON.stringify(llmInput)
       }
     ],{
-        tool_choice:rankProfilesTool
+        tool_choice:rankProfilesTool.name
     });
     const toolCall = response.tool_calls?.[0]?.args;
     return res.status(200).json(new ApiResponse(200,"Profiles ranked successfully",toolCall))
 })
+
+
