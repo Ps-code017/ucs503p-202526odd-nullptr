@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config --exec node index.js",
-    "start":"node index.js"
+    "start": "node index.js"
   },
   "type": "module",
   "keywords": [],
@@ -16,9 +16,13 @@
     "@langchain/core": "^0.3.73",
     "@langchain/google-genai": "^0.2.17",
     "@langchain/groq": "^0.2.3",
+    "axios": "^1.13.2",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^17.2.2",
     "express": "^5.1.0",
+    "google-auth-library": "^10.5.0",
+    "jsonwebtoken": "^9.0.2",
     "langchain": "^0.3.32",
     "nodemon": "^3.1.10",
     "zod": "^3.25.76"
