@@ -4,7 +4,7 @@ import { ApiError } from "../utils/apiError.js";
 import { ApiResponse } from "../utils/apiResponse.js";
 
 export const getProfile=asyncHandler(async(req,res)=>{
-    const user=await User.findById(req.user._id).select("-googleId -refreshToken")
+    const user=await User.findById(req.user._id).populate("teamsJoined","name members").select("-googleId -refreshToken")
     if(!user){
         throw new ApiError(404,"User not found")
     }

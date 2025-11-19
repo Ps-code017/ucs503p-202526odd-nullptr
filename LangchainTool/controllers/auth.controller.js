@@ -53,7 +53,7 @@ export const googleCallbackController=asyncHandler(async(req,res)=>{
     const googleUser=await verifyGoogleToken(idToken)
     if(!googleUser) throw new ApiError(401,"invalid idToken");
 
-    console.log(googleUser,"GOOGLE USER")
+    // console.log(googleUser,"GOOGLE USER")
     let user=await User.findOne({email:googleUser.email})
     if(!user){
         user=await User.create({
@@ -70,7 +70,18 @@ export const googleCallbackController=asyncHandler(async(req,res)=>{
     await user.save();
 
     res.cookie("refreshToken",refreshToken,options).cookie("accessToken",accessToken,options_access)
-    console.log(req.cookies)
-    console.log(process.env.FRONTEND_REDIRECT_URI)
+    // console.log(req.cookies)
+    // console.log(process.env.FRONTEND_REDIRECT_URI)
     res.redirect(process.env.FRONTEND_REDIRECT_URI)
+})
+
+export const logoutUser=asyncHandler(async(req,res)=>{
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $unset:{refreshToken:1}
+        },
+        {new:true}
+    )
+    return res.status(200).clearCookie("accessToken",options_access).clearCookie("refreshToken",options).json(new ApiResponse(200,"Logged out successfully"))
 })
