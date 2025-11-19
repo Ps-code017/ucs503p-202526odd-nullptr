@@ -13,8 +13,8 @@ const seed = async () => {
     console.log("MongoDB Connected");
 
     // CLEAR EXISTING DATA (optional safety)
-    // await User.deleteMany({});
-    // await Team.deleteMany({});
+    await User.deleteMany({});
+    await Team.deleteMany({});
 
     console.log("Old data cleared");
 
