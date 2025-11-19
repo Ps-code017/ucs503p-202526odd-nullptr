@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Teams</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script  src="main.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .team { padding: 15px; border: 1px solid #ddd; border-radius: 10px; margin-top: 10px; }
+    input { width: 100%; padding: 12px; }
+  </style>
+</head>
+<body>
+
+<h2>Teams</h2>
+
+<input id="searchBox" placeholder="Search teams..." oninput="searchTeams()" />
+
+<div id="teamList"></div>
+
+<button onclick="window.location.href='index.html'">Back</button>
+
+<script>
+// In teams.html
+async function loadTeams() {
+  const response = await apiGet("/api/teams");
+  // Check if the response is an object containing a 'data' array
+  const teamsArray = response.data || response; 
+  
+  if (Array.isArray(teamsArray)) {
+    renderTeams(teamsArray);
+  } else {
+    console.error("API response is not a list:", response);
+    // Handle the non-array case, e.g., display an error message
+  }
+}
+
+function renderTeams(teams) {
+  const list = document.getElementById("teamList");
+  list.innerHTML = "";
+  teams.forEach(t => {
+    const div = document.createElement("div");
+    div.className = "team";
+    div.innerHTML = `
+      <b>${t.name}</b><br>
+      Skills: ${t.requiredSkills.join(", ")}<br><br>
+      <button onclick="joinTeam('${t._id}')">Join</button>
+      <button onclick="window.location.href='team.html?id=${t._id}'">View</button>
+    `;
+    list.appendChild(div);
+  });
+}
+
+async function searchTeams() {
+  const q = document.getElementById("searchBox").value.trim();
+
+  if (q.length === 0) {
+    loadTeams();
+    return;
+  }
+
+  try {
+    const response = await apiGet(`/api/teams/search?query=${encodeURIComponent(q)}`);
+    
+    // 🌟 FIX: Extract the array from the response object 🌟
+    const teamsArray = response.data || response; 
+
+    // Optional: Add safety check before rendering
+    if (Array.isArray(teamsArray)) {
+        renderTeams(teamsArray);
+    } else {
+        throw new Error("API search result was not a list.");
+    }
+    
+  } catch (error) {
+     console.error("Search failed:", error);
+     const list = document.getElementById("teamList");
+     list.innerHTML = `<div>Error searching teams: ${error.message}</div>`;
+  }
+}
+
+async function joinTeam(id) {
+  try {
+    // apiPost will throw an error if the status is 4xx or 5xx
+    await apiPost(`/api/teams/${id}/join`);
+    
+    // Success confirmation
+    alert("Successfully joined the team!");
+    
+    // Optional: Refresh the team list to reflect the change
+    loadTeams(); 
+
+  } catch (error) {
+    // Extract and display the actual server error message
+    console.error("Failed to join team:", error); 
+    
+    // Display a meaningful error message to the user
+    alert(`Could not join team. Error: ${error.message || "Unknown error"}`);
+  }
+}
+
+loadTeams();
+</script>
+
+</body>
+</html>

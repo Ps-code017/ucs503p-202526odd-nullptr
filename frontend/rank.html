@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ranking</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script  src="main.js"></script>
+</head>
+<body>
+
+<h2>Ranking</h2>
+
+<button onclick="rankTeams()">Rank Teams for Me</button>
+<button onclick="chooseTeam()">Rank Profiles for a Team</button>
+
+<div id="output" style="margin-top:20px"></div>
+
+<script>
+async function rankTeams() {
+  const data = await apiGet("/api/rank/profile");
+  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+}
+
+async function chooseTeam() {
+  const teamId = prompt("Enter team ID:");
+  if (!teamId) return;
+
+  const data = await apiGet(`/api/rank/team/${teamId}`);
+  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+}
+</script>
+
+</body>
+</html>

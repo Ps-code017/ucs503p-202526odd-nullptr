@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Team</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script  src="main.js"></script>
+</head>
+<body>
+
+<h2>Team Details</h2>
+<div id="team"></div>
+
+<br>
+<button onclick="window.location.href='teams.html'">Back</button>
+
+<script>
+async function loadTeam() {
+  const id = new URLSearchParams(window.location.search).get("id");
+  const t = await apiGet(`/api/teams/profile?id=${id}`);
+
+  document.getElementById("team").innerHTML = `
+    <b>Name:</b> ${t.name}<br>
+    <b>Skills:</b> ${t.requiredSkills.join(", ")}<br>
+    <b>Members:</b> ${t.members.map(m => m.name).join(", ")}
+  `;
+}
+
+loadTeam();
+</script>
+
+</body>
+</html>

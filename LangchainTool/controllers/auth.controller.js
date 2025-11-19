@@ -18,7 +18,7 @@ const options_access={
     secure: false,
 
     sameSite: "Lax",
-    maxAge: 15 * 60 * 1000, 
+    maxAge: 1* 60 * 60 * 1000, 
 }
 
 export const googleRedirectController=asyncHandler(async(req,res)=>{
@@ -70,5 +70,7 @@ export const googleCallbackController=asyncHandler(async(req,res)=>{
     await user.save();
 
     res.cookie("refreshToken",refreshToken,options).cookie("accessToken",accessToken,options_access)
+    console.log(req.cookies)
+    console.log(process.env.FRONTEND_REDIRECT_URI)
     res.redirect(process.env.FRONTEND_REDIRECT_URI)
 })

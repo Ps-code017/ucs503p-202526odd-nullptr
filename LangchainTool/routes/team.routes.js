@@ -8,7 +8,7 @@ router.post("/", verifyJWT, createTeam);
 router.post("/:teamId/join", verifyJWT, joinTeam);
 router.get('/search', verifyJWT, searchTeams);
 
-
+//get team details api.teams.profils?id=
 // router.get("/:teamId", getTeam);
 // router.post("/:teamId/leave", authMiddleware, leaveTeam);
 

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script  src="main.js"></script>
+  <style>
+    body { padding: 20px; font-family: sans-serif; }
+    input { width: 100%; padding: 12px; margin-top: 10px; }
+    button { margin-top: 20px; padding: 12px; width: 100%; }
+  </style>
+</head>
+<body>
+
+<h2>My Profile</h2>
+
+<div>
+  <label>Skills (comma separated)</label>
+  <input id="skillsInput" placeholder="Python, React, AWS" />
+</div>
+
+<button onclick="saveSkills()">Save</button>
+<button onclick="window.location.href='index.html'">Back</button>
+
+<script>
+(async () => {
+  try {
+    console.log("Loading profile... before apiGet in profile.html");
+    const me = await apiGet("/api/users/me");
+    console.log("Profile loaded: after apiGet in profile.html", me);
+    
+    // 🌟 FIX: Use the OR operator (||) to provide an empty array if me.skills is undefined/null
+    document.getElementById("skillsInput").value = (me.skills || []).join(", "); 
+    
+    return;
+  } catch(err) {
+    console.error("Auth failed:", err.message); 
+    
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 1000);
+  }
+})();
+
+async function saveSkills() {
+  try {
+  const skills = document.getElementById("skillsInput").value
+      .split(",")
+      .map(s => s.trim());
+  
+    // CHANGE apiPost to apiPut
+    await apiPut("/api/users/skills", { skills }); 
+    alert("Saved!");
+} catch (error) {
+  alert(`Failed to save skills: ${error.message || "Unknown error"}`);
+}
+}
+</script>
+
+</body>
+</html>

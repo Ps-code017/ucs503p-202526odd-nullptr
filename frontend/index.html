@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -91,4 +91,55 @@
   <script src="config.js"></script>
 <script src="main.js"></script>
 </body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script  src="main.js"></script>
+  <style>
+    body { padding: 20px; font-family: sans-serif; }
+    .btn { display: block; margin-top: 20px; padding: 14px; background: #000; color: #fff; text-align: center; border-radius: 8px; }
+  </style>
+</head>
+<body>
+
+<h2>Team Matcher</h2>
+
+<div id="welcome"></div>
+
+<a class="btn" href="teams.html">Join a Team</a>
+<a class="btn" href="profile.html">Edit Profile</a>
+<a class="btn" href="rank.html">Find Best Matches</a>
+
+<button style="margin-top:30px" onclick="logout()">Logout</button>
+
+<script>
+(async () => {
+  try {
+
+     // 1. The call that requires the cookies
+     console.log("Fetching user info... before apiGet");
+     const me = await apiGet("/api/users/me"); 
+     console.log("Fetching user info... after apiGet");
+     // 2. If successful, display welcome and return
+    document.getElementById("welcome").innerText = `Welcome, ${me.data.name}`;
+    return; // Stop execution here if successful
+  } catch (err) {
+     // If the fetch fails (401, 500, etc.), log the error
+     console.error("Auth failed:", err.message); 
+
+    // 3. Delay the redirect to give the console time to show the error
+    //    and ensure the browser isn't canceling the script prematurely.
+    setTimeout(() => {
+        window.location.href = "login.html";
+    }, 1000); // 1000 milliseconds delay
+ }
+})();
+</script>
+
+</body>
 </html>
+
