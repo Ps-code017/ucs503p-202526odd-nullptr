@@ -8,16 +8,16 @@ import jwt from "jsonwebtoken"
 
 const options={
     httpOnly:true,
-    secure: false,
+    secure: true,
 
-    sameSite: "Lax",
+    sameSite: "None",
     maxAge: 7 * 24 * 60 * 60 * 1000,
 }
 const options_access={
     httpOnly:true,
-    secure: false,
+    secure: true,
 
-    sameSite: "Lax",
+    sameSite: "None",
     maxAge: 1* 60 * 60 * 1000, 
 }
 
