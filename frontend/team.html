@@ -4,26 +4,54 @@
   <meta charset="UTF-8">
   <title>Team</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script  src="main.js"></script>
+  <script src="main.js"></script>
 </head>
 <body>
 
 <h2>Team Details</h2>
 <div id="team"></div>
-
 <br>
 <button onclick="window.location.href='teams.html'">Back</button>
 
 <script>
 async function loadTeam() {
+ try {
   const id = new URLSearchParams(window.location.search).get("id");
-  const t = await apiGet(`/api/teams/profile?id=${id}`);
+  if (!id) return alert("Team ID missing");
+
+  const team = await apiGet(`/api/teams/${id}`);
+
+  // 🌟 FIX: Use defensive coding to ensure properties are arrays 🌟
+  const requiredSkills = team.data.requiredSkills || [];
+  const members = team.data.members || [];
+     
+    // Ensure the ID is present for the join button, falling back to URL ID if necessary
+    const teamId =  id; 
 
   document.getElementById("team").innerHTML = `
-    <b>Name:</b> ${t.name}<br>
-    <b>Skills:</b> ${t.requiredSkills.join(", ")}<br>
-    <b>Members:</b> ${t.members.map(m => m.name).join(", ")}
+   <b>Name:</b> ${team.data.name}<br><br>
+   <b>Required Skills:</b> ${requiredSkills.join(", ")}<br><br>
+   <b>Members:</b><br>
+   ${members.map(m => "- " + (m.user?.name || 'Unknown Member')).join("<br>")}
+   <br><br>
+   <button onclick="joinTeam('${teamId}')">Join Team</button>
   `;
+
+ } catch (err) {
+  console.error("Error loading team details:", err);
+  // Redirect to the list view after a delay if fetching fails
+  setTimeout(() => {location.href = 'teams.html';}, 2000);
+ }
+}
+
+async function joinTeam(id) {
+  try {
+    await apiPost(`/api/teams/${id}/join`);
+    alert("Joined team!");
+    location.reload();
+  } catch (err) {
+    alert("Failed to join team");
+  }
 }
 
 loadTeam();
@@ -31,3 +59,4 @@ loadTeam();
 
 </body>
 </html>
+

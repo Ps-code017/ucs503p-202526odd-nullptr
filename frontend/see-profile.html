@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="main.js"></script>
+
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 20px;
+      background: #f7f7f7;
+    }
+    .card {
+      background: white;
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+    .value {
+      background: #eee;
+      padding: 10px;
+      border-radius: 6px;
+      margin-top: 5px;
+    }
+    .chip {
+      display: inline-block;
+      background: #007bff;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      margin: 4px;
+      font-size: 14px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      text-align: center;
+      background: black;
+      color: white;
+      border-radius: 6px;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>My Profile</h2>
+
+  <div>
+    <span class="label">Name</span>
+    <div id="name" class="value">Loading...</div>
+
+    <span class="label">Email</span>
+    <div id="email" class="value">Loading...</div>
+
+    <span class="label">Skills</span>
+    <div id="skills"></div>
+
+    <span class="label">Teams Joined</span>
+    <div id="teams"></div>
+  </div>
+
+  <a class="btn" href="/frontend/index.html">Back</a>
+</div>
+
+<script>
+(async () => {
+  try {
+    const me = await apiGet("/api/users/me");
+    const data = me.data;
+
+    document.getElementById("name").textContent = data.name || "Unknown";
+    document.getElementById("email").textContent = data.email || "No email";
+
+    // ---- Skills ----
+    const skillsBox = document.getElementById("skills");
+    skillsBox.innerHTML = "";
+    if (data.skills?.length > 0) {
+      data.skills.forEach(s => {
+        const chip = document.createElement("span");
+        chip.className = "chip";
+        chip.textContent = s;
+        skillsBox.appendChild(chip);
+      });
+    } else {
+      skillsBox.innerHTML = "<div class='value'>No skills added</div>";
+    }
+
+    // ---- Teams ----
+    const teamsBox = document.getElementById("teams");
+    teamsBox.innerHTML = "";
+    if (data.teamsJoined?.length > 0) {
+      data.teamsJoined.forEach(t => {
+        const div = document.createElement("div");
+        div.className = "value";
+        div.textContent = t.name || "Unnamed Team";
+        teamsBox.appendChild(div);
+      });
+    } else {
+      teamsBox.innerHTML = "<div class='value'>Not in any team</div>";
+    }
+
+  } catch (err) {
+    console.error("Auth failed:", err.message);
+    logout();
+    setTimeout(() => window.location.href = "login.html", 1000);
+  }
+})();
+</script>
+
+</body>
+</html>

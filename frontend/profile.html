@@ -36,6 +36,7 @@
     return;
   } catch(err) {
     console.error("Auth failed:", err.message); 
+    logout();
     
     setTimeout(() => {
         window.location.href = "login.html";

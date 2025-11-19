@@ -37,19 +37,25 @@ async function loadTeams() {
 }
 
 function renderTeams(teams) {
-  const list = document.getElementById("teamList");
-  list.innerHTML = "";
-  teams.forEach(t => {
-    const div = document.createElement("div");
-    div.className = "team";
-    div.innerHTML = `
-      <b>${t.name}</b><br>
-      Skills: ${t.requiredSkills.join(", ")}<br><br>
-      <button onclick="joinTeam('${t._id}')">Join</button>
-      <button onclick="window.location.href='team.html?id=${t._id}'">View</button>
-    `;
-    list.appendChild(div);
-  });
+  try {
+    const list = document.getElementById("teamList");
+    list.innerHTML = "";
+    teams.forEach(t => {
+      const div = document.createElement("div");
+      div.className = "team";
+      div.innerHTML = `
+        <b>${t.name}</b><br>
+        Skills: ${t.requiredSkills.join(", ")}<br><br>
+        <button onclick="joinTeam('${t._id}')">Join</button>
+        <button onclick="window.location.href='team.html?id=${t._id}'">View</button>
+      `;
+      list.appendChild(div);
+    });
+  } catch (error) {
+    console.error("Error rendering teams:", error);
+    const list = document.getElementById("teamList");
+    list.innerHTML = `<div>Error rendering teams: ${error.message}</div>`;
+  }
 }
 
 async function searchTeams() {

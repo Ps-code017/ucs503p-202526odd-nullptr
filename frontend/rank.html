@@ -4,30 +4,78 @@
   <meta charset="UTF-8">
   <title>Ranking</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <script  src="main.js"></script>
+  <script src="main.js"></script>
+  <style>
+    body { font-family: sans-serif; padding: 16px; }
+    button { padding: 10px 16px; margin-top: 12px; width: 100%; }
+    select { padding: 10px; width: 100%; margin-top: 12px; }
+    pre { white-space: pre-wrap; word-wrap: break-word; background:#f0f0f0; padding:12px; border-radius:6px; }
+  </style>
 </head>
 <body>
 
-<h2>Ranking</h2>
+<h2>AI Ranking</h2>
+<a class="btn" href="/frontend/index.html">Back</a>
 
-<button onclick="rankTeams()">Rank Teams for Me</button>
-<button onclick="chooseTeam()">Rank Profiles for a Team</button>
 
-<div id="output" style="margin-top:20px"></div>
+<button onclick="rankTeams()">Rank Teams For Me</button>
+
+<h3 style="margin-top: 24px;">Rank Profiles For One of My Teams</h3>
+
+<select id="teamSelect">
+  <option value="">-- Select One of Your Teams --</option>
+</select>
+
+<button onclick="rankProfiles()">Rank Profiles</button>
+
+<pre id="output"></pre>
 
 <script>
+async function loadMyTeams() {
+  try {
+    const response = await apiGet("/api/teams/my");
+    const teams = response.data;   // 👈 FIX: use the "data" field
+
+    const select = document.getElementById("teamSelect");
+    select.innerHTML = '<option value="">-- Select One of Your Teams --</option>';
+
+    teams.forEach(t => {
+      const opt = document.createElement("option");
+      opt.value = t._id;
+      opt.innerText = t.name;
+      select.appendChild(opt);
+    });
+
+  } catch (err) {
+    console.log("Failed to load teams", err);
+  }
+}
+
+
 async function rankTeams() {
-  const data = await apiGet("/api/rank/profile");
-  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+  try {
+    const data = await apiGet("/api/rank/profile");
+    document.getElementById("output").innerText = JSON.stringify(data.data.rankings, null, 2);
+  } catch (err) {
+    console.error("Failed to rank teams", err);
+    alert("Failed to rank teams");
+  }
 }
 
-async function chooseTeam() {
-  const teamId = prompt("Enter team ID:");
-  if (!teamId) return;
+async function rankProfiles() {
+  const teamId = document.getElementById("teamSelect").value;
 
-  const data = await apiGet(`/api/rank/team/${teamId}`);
-  document.getElementById("output").innerText = JSON.stringify(data, null, 2);
+  if (!teamId) return alert("Select one of your teams");
+
+  try {
+    const data = await apiGet(`/api/rank/team/${teamId}`);
+    document.getElementById("output").innerText = JSON.stringify(data.data.rankings, null, 2);
+  } catch (err) {
+    alert("Failed to rank profiles");
+  }
 }
+
+loadMyTeams();
 </script>
 
 </body>
