@@ -75,3 +75,19 @@ export const getTeamById=asyncHandler(async(req,res)=>{
     const team=await Team.findById(teamId).populate("members.user","name email skills");
     return res.status(200).json(new ApiResponse(200,"Team fetched successfully",team))
 })
+
+export const leaveTeam=asyncHandler(async(req,res)=>{
+    const userId = req.user._id;
+  const teamId = req.params.teamId;
+
+  await Team.findByIdAndUpdate(teamId, {
+    $pull: { members: { user: userId } }
+  });
+
+  await User.findByIdAndUpdate(userId, {
+    $pull: { teamsJoined: teamId }
+  });
+
+  return res.status(200).json(new ApiResponse(200, "Left team successfully"));
+});
+    
