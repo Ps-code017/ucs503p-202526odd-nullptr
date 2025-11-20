@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Team</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="main.js"></script>
+
+  <style>
+    body {
+      padding: 20px;
+      font-family: sans-serif;
+      background: #f4f4f4;
+    }
+    .card {
+      background: white;
+      max-width: 450px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    .label {
+      font-weight: bold;
+      margin-top: 15px;
+      display: block;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      background: black;
+      color: white;
+      text-align: center;
+      border-radius: 6px;
+      margin-top: 20px;
+      text-decoration: none;
+    }
+    #msg {
+      margin-top: 15px;
+      text-align: center;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h2>Create a Team</h2>
+
+  <label class="label">Team Name</label>
+  <input id="name" type="text" placeholder="Enter team name">
+
+  <label class="label">Required Skills (comma separated)</label>
+  <input id="skills" type="text" placeholder="e.g., C++, ML, Backend">
+
+  <button class="btn" onclick="createTeam()">Create Team</button>
+
+  <div id="msg"></div>
+
+  <a href="teams.html" class="btn" style="background:#555;margin-top:10px">Back</a>
+</div>
+
+<script>
+async function createTeam() {
+  const name = document.getElementById("name").value.trim();
+  const skillsRaw = document.getElementById("skills").value.trim();
+
+  if (!name) {
+    document.getElementById("msg").textContent = "Team name required.";
+    document.getElementById("msg").style.color = "red";
+    return;
+  }
+
+  const requiredSkills = skillsRaw
+    ? skillsRaw.split(",").map(s => s.trim()).filter(Boolean)
+    : [];
+
+  try {
+    const res = await fetch(API_BASE + "/api/teams", {
+      method: "POST",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, requiredSkills })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      document.getElementById("msg").textContent = data.message || "Error creating team";
+      document.getElementById("msg").style.color = "red";
+      return;
+    }
+
+    document.getElementById("msg").textContent = "Team Created Successfully!";
+    document.getElementById("msg").style.color = "green";
+
+    setTimeout(() => {
+      window.location.href = "teams.html";
+    }, 1200);
+
+  } catch (err) {
+    console.error(err.message)
+    document.getElementById("msg").textContent = "Network error!";
+    document.getElementById("msg").style.color = "red";
+  }
+}
+</script>
+
+</body>
+</html>

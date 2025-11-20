@@ -107,5 +107,5 @@ function loginWithGoogle() {
 // Logout
 async function logout() {
   await apiPost("/api/auth/logout");
-  window.location.href = "/frontend/login.html";
+  window.location.href = "login.html";
 }
